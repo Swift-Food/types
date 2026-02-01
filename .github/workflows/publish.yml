@@ -5,25 +5,52 @@ on:
     branches: [main]
     paths:
       - 'src/**'
-      - 'package.json'
-  release:
-    types: [created]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@swift-food'
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine version bump
+        id: version
+        run: |
+          # Get commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+
+          # Determine bump type from conventional commit
+          if echo "$COMMIT_MSG" | grep -qE "^feat(\(.+\))?!:|BREAKING CHANGE:"; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif echo "$COMMIT_MSG" | grep -qE "^feat(\(.+\))?:"; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
       - run: npm install
       - run: npm run build
-      - run: npm publish
+
+      - name: Bump version and publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm version ${{ steps.version.outputs.bump }} -m "chore: release v%s [skip ci]"
+          git push --follow-tags
+          npm publish
