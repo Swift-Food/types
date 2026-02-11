@@ -54,7 +54,7 @@ export interface CalendarResponse {
   addressId: string | null;
   subscriberCount: number;
   showSubscriberCount: boolean;
-  eventCount?: number;
+  upcomingEventCount?: number;
   autoDeletePastEventsAfterDays: number | null;
   createdAt: string;
   updatedAt: string;
