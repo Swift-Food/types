@@ -1,4 +1,4 @@
-import { CateringOrderStatus, MealSessionDeliveryStatus, CateringDeliveryMethod } from '../enums';
+import { CateringOrderStatus } from '../enums';
 
 // ============================================================
 // MEAL SESSION RESPONSES
@@ -60,93 +60,6 @@ export interface SelectedAddon {
   name: string;
   price: number;
   quantity?: number;
-}
-
-// ============================================================
-// DRIVER-SPECIFIC MEAL SESSION (no pricing data)
-// ============================================================
-
-export interface DriverMealSessionResponse {
-  id: string;
-  version: number;
-  sessionName: string;
-  sessionDate: string;
-  eventTime: string;
-  deliveryStatus: MealSessionDeliveryStatus;
-  driverOrgId: string | null;
-  driverNames: string[];
-  restaurantPickupStatus: Record<string, RestaurantPickupStatus>;
-  driverDeliveryConfirmations: Record<string, DriverDeliveryConfirmation>;
-  driverOrgAssignedAt?: string;
-  restaurants: DriverRestaurantPickup[];
-  totalPortions: number;
-  totalItems: number;
-  delivery: DriverDeliveryInfo;
-  specialRequirements?: string;
-  estimatedDeliveryTime?: string;
-  pickupStartedAt?: string;
-  outForDeliveryAt?: string;
-  arrivedAtDestinationAt?: string;
-  deliveredAt?: string;
-  driverOrgNotes?: string;
-}
-
-export interface RestaurantPickupStatus {
-  collectedAt: string | null;
-  pickupProofImageUrl: string | null;
-  collectedBy: string | null;
-}
-
-export interface DriverDeliveryConfirmation {
-  confirmedAt: string;
-  deliveryProofImageUrl: string;
-}
-
-export interface DriverRestaurantPickup {
-  restaurantId: string;
-  restaurantName: string;
-  address: DriverRestaurantAddress;
-  contact: DriverRestaurantContact;
-  collectionTime: string;
-  itemCount: number;
-  portionCount: number;
-  menuItems: DriverMenuItemDto[];
-}
-
-export interface DriverRestaurantAddress {
-  addressLine1: string;
-  addressLine2?: string;
-  city: string;
-  postcode: string;
-  location?: { latitude: number; longitude: number };
-}
-
-export interface DriverRestaurantContact {
-  phone?: string;
-  email?: string;
-}
-
-export interface DriverMenuItemDto {
-  menuItemId: string;
-  name: string;
-  quantity: number;
-  feedsPerUnit?: number;
-  totalPortions?: number;
-  groupTitle?: string;
-  selectedAddons?: DriverAddonDto[];
-}
-
-export interface DriverAddonDto {
-  name: string;
-  quantity: number;
-  groupTitle?: string;
-}
-
-export interface DriverDeliveryInfo {
-  address: string;
-  location?: { latitude: number; longitude: number };
-  contactName?: string;
-  contactPhone?: string;
 }
 
 // ============================================================

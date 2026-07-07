@@ -34,13 +34,12 @@ export enum SubOrderStatus {
 }
 
 export enum MealSessionDeliveryStatus {
-  PENDING = 'pending',
-  FINDING_DRIVER = 'finding_driver',
-  DRIVER_ASSIGNED = 'driver_assigned',
-  AWAITING_PICKUP = 'awaiting_pickup',
-  OUT_FOR_DELIVERY = 'out_for_delivery',
-  AT_COLLECTION_POINT = 'at_collection_point',
-  DELIVERED = 'delivered',
+  PENDING = 'pending', // Order not yet paid
+  AWAITING_BOOKING = 'awaiting_booking', // Paid; no courier booked yet
+  BOOKED = 'booked', // Courier booked with Pedivan
+  OUT_FOR_DELIVERY = 'out_for_delivery', // Courier picked up, en route
+  DELIVERED = 'delivered', // Delivery complete
+  FAILED = 'failed', // Courier reported failure — needs admin attention
 }
 
 export enum OrderStatus {
