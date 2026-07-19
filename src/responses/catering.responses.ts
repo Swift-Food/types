@@ -89,6 +89,9 @@ export interface CateringOrderResponse {
   deliveryFee: number;
   promoDiscount: number;
   promotionDiscount: number;
+  /** Partner space commission ("Venue Service Fee") — included in finalTotal */
+  partnerCommissionFee?: number;
+  partnerCommissionRate?: number;
   depositAmount?: number;
   estimatedTotal?: number;
   finalTotal?: number;
